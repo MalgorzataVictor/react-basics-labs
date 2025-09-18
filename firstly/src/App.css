@@ -114,5 +114,7 @@ select {
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
-  background-color: white; /* Optional: makes it match the inputs */
+  background-color: white; 
 }
+
+
