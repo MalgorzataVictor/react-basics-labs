@@ -3,10 +3,7 @@ import Task from './components/Task';
 import React, { useState } from 'react';
 import AddTaskForm from './components/Form';
 
-
-
 function App() {
-
   const [taskState, setTaskState] = useState({
     tasks: [
       { id: 1, title: "Dishes", description: "Empty dishwasher", deadline: "Today", priority: "Low", done: false },
@@ -15,17 +12,45 @@ function App() {
     ]
   });
 
+ 
+  const [formState, setFormState] = useState({
+    title: "",
+    description: "",
+    deadline: ""
+  });
+
   const doneHandler = (taskIndex) => {
     const tasks = [...taskState.tasks];
     tasks[taskIndex].done = !tasks[taskIndex].done;
     setTaskState({ tasks });
-  }
+  };
 
-    const deleteHandler = (taskIndex) => {
+  const deleteHandler = (taskIndex) => {
     const tasks = [...taskState.tasks];
     tasks.splice(taskIndex, 1);
-    setTaskState({tasks});
-  } 
+    setTaskState({ tasks });
+  };
+
+  const formChangeHandler = (event) => {
+    let form = { ...formState };
+
+    switch (event.target.name) {
+      case "title":
+        form.title = event.target.value;
+        break;
+      case "description":
+        form.description = event.target.value;
+        break;
+      case "deadline":
+        form.deadline = event.target.value;
+        break;
+      default:
+        break;
+    }
+    setFormState(form);
+  };
+
+  console.log(formState);
 
   return (
     <div className="container">
@@ -38,16 +63,13 @@ function App() {
           priority={task.priority}
           key={task.id}
           done={task.done}
-          deleteTask = {() => deleteHandler(index)}
+          deleteTask={() => deleteHandler(index)}
           markDone={() => doneHandler(index)}
         />
       ))}
-
-      <AddTaskForm />
-      
+      <AddTaskForm change={formChangeHandler} />
     </div>
   );
-
 }
 
 export default App;
