@@ -2,6 +2,8 @@ import './App.css';
 import Task from './components/Task';
 import React, { useState } from 'react';
 import AddTaskForm from './components/Form';
+import { v4 as uuidv4 } from 'uuid';
+
 
 function App() {
   const [taskState, setTaskState] = useState({
@@ -52,6 +54,20 @@ function App() {
 
   console.log(formState);
 
+
+    const formSubmitHandler = (event) => {
+    event.preventDefault();
+
+    const tasks = [...taskState.tasks];
+    const form = {...formState};
+
+    form.id = uuidv4();
+    
+    tasks.push(form);
+    setTaskState({tasks});
+  }
+
+
   return (
     <div className="container">
       <h1>Tasky</h1>
@@ -67,7 +83,8 @@ function App() {
           markDone={() => doneHandler(index)}
         />
       ))}
-      <AddTaskForm change={formChangeHandler} />
+        <AddTaskForm submit={formSubmitHandler} change={formChangeHandler} />
+
     </div>
   );
 }
